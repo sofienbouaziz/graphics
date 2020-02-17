@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-# Math functionalities for tf-graphics.
+# OpenGL functionalities for tf-graphics.
 
 # google internal package dependency 8)
 load("//third_party/tensorflow:tensorflow.bzl", "tf_custom_op_library", "tf_gen_op_wrapper_py")
@@ -32,6 +32,7 @@ py_library(
     visibility = ["//visibility:public"],
     deps = [
         ":math",
+        ":triangle_rasterizer",
         "//tensorflow_graphics/util:export_api",
     ],
 )
@@ -412,5 +413,40 @@ cc_test(
         "//third_party/tensorflow/core:lib",
         "//third_party/tensorflow/core:test",
         "@com_google_googletest//:gtest_main",
+    ],
+)
+
+py_library(
+    name = "triangle_rasterizer",
+    srcs = ["triangle_rasterizer.py"],
+    srcs_version = "PY2AND3",
+    # google internal rule 1
+    deps = [
+        ":math",
+        ":rasterizer_op_py",
+        # google internal package dependency 1,
+        "//tensorflow_graphics/util:export_api",
+        "//tensorflow_graphics/util:shape",
+    ],
+)
+
+py_test(
+    name = "triangle_rasterizer_test",
+    timeout = "long",
+    srcs = ["tests/triangle_rasterizer_test.py"],
+    srcs_version = "PY2AND3",
+    # google internal rule 1
+    test_on_cpu = False,
+    # google internal rule 3
+    # google internal rule 4
+    # google internal rule 5
+    # google internal rule 6
+    deps = [
+        ":gl_native_libs",
+        ":triangle_rasterizer",
+        # google internal package dependency 2
+        # google internal package dependency 6
+        # google internal package dependency 1,
+        "//tensorflow_graphics/util:test_case",
     ],
 )
